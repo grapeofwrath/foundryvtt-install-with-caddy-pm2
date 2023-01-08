@@ -23,15 +23,10 @@ read -p "Is this the first install? (y/n) " yn
 case $yn in 
 	[yY] ) echo "Setting up first install..."
 
-    # Per the nodejs docs, nodejs setup differs between Debian and Ubuntu
-      if [ "$(lsb_release -si)" = 'Debian' ]; then
-          curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
-      else
-          curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash -
-      fi
-
-      # Install prerequisites
-      apt install -y libssl-dev unzip nodejs
+      # Install prerequisites and node setup      
+      apt install -y libssl-dev
+      curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+      apt install -y nodejs
 
       # Create system user to manage Foundry
       useradd -r $FOUNDRY_USER
