@@ -23,10 +23,19 @@ read -p "Is this the first install? (y/n) " yn
 case $yn in 
 	[yY] ) echo "Setting up first install..."
 
-      # Install prerequisites and node setup      
-      apt install -y libssl-dev
+      # Setup Node prerequisites
       curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
-      apt install -y nodejs
+      
+      # Setup Caddy prerequisites
+      apt install -y debian-keyring debian-archive-keyring apt-transport-https
+      curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' |
+      sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+      curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' |
+      sudo tee /etc/apt/sources.list.d/caddy-stable.list
+      apt update
+      
+      # Install Caddy and Node
+      apt install -y libssl-dev unzip nodejs caddy
 
       # Create system user to manage Foundry
       useradd -r $FOUNDRY_USER
