@@ -1,5 +1,11 @@
 # FoundryVTT Install with Caddy and PM2
 
+---
+### WARNING: Use at your own peril
+The recommended and official method for installing FoundryVTT can be found [here](https://foundryvtt.com/article/installation/).
+
+---
+
 This script assumes you are using Debian 10, Ubuntu 20.04 LTS, Ubuntu 22.04 LTS or Debian 11. It is a forked/modified version of maserspark's stackscript on Linode. You can use this to install and setup Foundry on a fresh system, or you can create additional Foundry instances with it. Once done, you'll have a Foundry instance managed with PM2 and available to the interwebs with SSL via Caddy.
 
 This runs as root and will either create a system user for you or assume that you already have one as specified by the coresponding variable. In order to manage Foundry via PM2, commands will need to be ran as sudo.
