@@ -24,7 +24,7 @@ case $yn in
 	[yY] ) echo "Setting up first install..."
 
       # Setup Node prerequisites
-      curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+      curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
       
       # Setup Caddy prerequisites
       apt install -y debian-keyring debian-archive-keyring apt-transport-https
@@ -62,13 +62,14 @@ unzip "$FOUNDRY_APP_DIR/foundryvtt.zip" -d "$FOUNDRY_APP_DIR"
 # Give non-root user ownership for Foundry directories
 chown -R $FOUNDRY_USER:$FOUNDRY_USER "$FOUNDRY_APP_DIR" "$FOUNDRY_DATA_DIR"
 
-# Initialize PM2 for daemon management
-pm2 start "$FOUNDRY_APP_DIR/resources/app/main.js" --name $FOUNDRY_PM2_NAME --user foundry -- --dataPath="$FOUNDRY_DATA_DIR"
-pm2 save
-
 # Give Foundry time to generate the options.json file
 echo "Initializing FoundryVTT..."
-sleep 10
+timeout 10 node $FOUNDRY_APP_DIR/resources/app/main.js
+
+# Initialize Foundry with PM2 for daemon management
+pm2 start "$FOUNDRY_APP_DIR/resources/app/main.js" --name $FOUNDRY_PM2_NAME --user $FOUNDRY_USER -- --dataPath="$FOUNDRY_DATA_DIR"
+pm2 save
+sleep 3
 pm2 stop $FOUNDRY_PM2_NAME
 
 # Configure Caddy for HTTPS proxying
@@ -114,4 +115,4 @@ pm2 start $FOUNDRY_PM2_NAME
 # Re-start Caddy
 systemctl restart caddy
 
-echo "FoundryVTT setup complete! Please access your instance here: https://$FOUNDRY_HOSTNAME"
+echo "FoundryVTT setup complete! Please access your instance online here: https://$FOUNDRY_HOSTNAME or locally here: localhost:$FOUNDRY_PORT"
