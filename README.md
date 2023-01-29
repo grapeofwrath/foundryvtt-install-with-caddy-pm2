@@ -2,7 +2,7 @@
 
 ---
 ### WARNING: Use at your own peril
-The recommended and official method for installing FoundryVTT can be found [here](https://foundryvtt.com/article/installation/).
+The recommended and official method for installing FoundryVTT can be found [here](https://foundryvtt.com/article/installation/). You can also view a slightly more in depth version from the community wiki [here](https://foundryvtt.wiki/en/setup/linux-installation)
 
 ---
 
